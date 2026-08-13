@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caye | Transparencia</title>
+<meta name="description" content="Página pública de transparencia y avance de la ayuda de Caye.">
+<style>
+:root{--orange:#ff7a00;--orange2:#ff9d3d;--bg:#0d0d0f;--card:#17171b;--muted:#a7a7ad;--white:#fff;--green:#25d366}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% -10%,#33200e 0,#0d0d0f 45%);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--white)}
+.wrap{max-width:720px;margin:auto;padding:28px 18px 50px}.top{text-align:center;padding:18px 0 8px}
+.badge{display:inline-block;padding:7px 12px;border:1px solid #5b3516;border-radius:999px;color:#ffb66e;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+h1{font-size:clamp(34px,8vw,58px);line-height:.95;margin:18px 0 10px;letter-spacing:-.04em} h1 span{color:var(--orange)}
+.sub{color:#d2d2d6;line-height:1.5;margin:0 auto;max-width:560px}
+.card{background:rgba(23,23,27,.94);border:1px solid #2b2b31;border-radius:24px;padding:22px;margin-top:18px;box-shadow:0 16px 50px #0006}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{background:#101014;border-radius:18px;padding:16px}.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.value{font-size:25px;font-weight:900;margin-top:5px}
+.bar{height:18px;background:#29292f;border-radius:999px;overflow:hidden;margin:18px 0 8px}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:999px;transition:width .6s}
+.percent{text-align:right;color:#ffb66e;font-weight:800;font-size:13px}
+.row{display:flex;justify-content:space-between;gap:16px;color:#d6d6da;font-size:14px;margin-top:12px}.small{font-size:12px;color:var(--muted);line-height:1.5}
+h2{font-size:21px;margin:0 0 12px}.method{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px;border:1px solid #303036;border-radius:16px;margin-top:10px}.method b{display:block}.method span{font-size:13px;color:var(--muted)}
+button{border:0;background:var(--orange);color:#111;font-weight:900;padding:10px 13px;border-radius:12px;cursor:pointer}
+.actions{display:grid;gap:10px;margin-top:16px}.actions a{display:block;text-align:center;text-decoration:none;padding:14px;border-radius:15px;font-weight:900}.wa{background:var(--green);color:#07140b}.outline{border:1px solid #3a3a42;color:white}
+.notice{border-left:3px solid var(--orange);padding-left:14px;color:#d7d7db;line-height:1.55;font-size:14px}
+footer{text-align:center;color:#777;font-size:12px;padding-top:20px}
+@media(max-width:520px){.stats{grid-template-columns:1fr}.value{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge">Transparencia pública</div>
+    <h1>Mi camino para<br><span>volver a empezar.</span></h1>
+    <p class="sub">Esta página muestra el avance de mi recaudación. La actualizo cada vez que verifico nuevos aportes.</p>
+  </header>
+
+  <section class="card">
+    <div class="stats">
+      <div class="stat"><div class="label">Meta</div><div class="value" id="goal">$1.000.000</div></div>
+      <div class="stat"><div class="label">Recaudado</div><div class="value" id="collected">$0</div></div>
+      <div class="stat"><div class="label">Personas que ayudaron</div><div class="value" id="supporters">0</div></div>
+      <div class="stat"><div class="label">Última actualización</div><div class="value" id="updated" style="font-size:17px">Pendiente</div></div>
+    </div>
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <div class="percent" id="percent">0%</div>
+  </section>
+
+  <section class="card">
+    <h2>¿Cómo podés ayudar?</h2>
+    <div class="method">
+      <div><b>Transferencia bancaria</b><span>Alias: caye2000 · Galicia</span></div>
+      <button onclick="navigator.clipboard?.writeText('caye2000')">Copiar alias</button>
+    </div>
+    <p class="small">No hace falta que aportes una gran cantidad. Si no podés aportar, compartir esta página también ayuda.</p>
+  </section>
+
+  <section class="card">
+    <h2>¿Por qué esta página?</h2>
+    <p class="notice">Quiero que quienes decidan acompañarme puedan ver claramente cuánto se recaudó, cuánto falta y cuándo se actualizó la información. No publico claves, números de tarjeta ni datos bancarios sensibles.</p>
+  </section>
+
+  <section class="card">
+    <h2>Seguí el proceso</h2>
+    <div class="actions">
+      <a class="wa" href="https://chat.whatsapp.com/FvK4X0utvgF2mtHLVfPFdu" target="_blank" rel="noopener">Entrar a mi comunidad de WhatsApp</a>
+      <a class="outline" href="https://www.instagram.com/soycaye.ok/" target="_blank" rel="noopener">Ver mi historia en Instagram</a>
+    </div>
+  </section>
+
+  <footer>Última actualización: <span id="footerDate">Pendiente</span> · Página independiente de transparencia de Caye</footer>
+</div>
+
+<script>
+/*
+  ====== ACTUALIZAR ESTOS 4 DATOS ======
+  collected = dinero confirmado
+  supporters = cantidad de personas que ayudaron
+  updated = fecha/hora de la última actualización
+*/
+const data = {
+  goal: 1000000,
+  collected: 0,
+  supporters: 0,
+  updated: "Pendiente"
+};
+
+const money = n => new Intl.NumberFormat("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:0}).format(n);
+document.getElementById("goal").textContent = money(data.goal);
+document.getElementById("collected").textContent = money(data.collected);
+document.getElementById("supporters").textContent = data.supporters;
+document.getElementById("updated").textContent = data.updated;
+document.getElementById("footerDate").textContent = data.updated;
+const pct = Math.min(100, Math.max(0, data.collected / data.goal * 100));
+document.getElementById("fill").style.width = pct + "%";
+document.getElementById("percent").textContent = pct.toFixed(1).replace(".0","") + "%";
+</script>
+</body>
+</html>
