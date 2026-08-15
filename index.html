@@ -18,6 +18,8 @@
   --text-muted: #a0a0a0;
   --accent-gold: #e5b35c;
   --accent-green: #25d366; 
+  --paypal: #0070ba;
+  --paypal-dark: #005ea6;
   --taken: #d6482f; /* Rojo para reservados */
   --available: #1f4c43; /* Verde oscuro para disponibles */
 }
@@ -96,7 +98,7 @@ a { text-decoration: none; color: inherit; }
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .info-card {
@@ -119,6 +121,22 @@ a { text-decoration: none; color: inherit; }
   margin-top: 15px;
 }
 
+/* BOTONES DE ACCIÓN */
+.btn-copy {
+  background: transparent;
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+
+.btn-copy:hover { background: rgba(229, 179, 92, 0.1); }
+
 .btn-whatsapp {
   background-color: var(--accent-green);
   color: #000;
@@ -131,6 +149,41 @@ a { text-decoration: none; color: inherit; }
   border: none;
   cursor: pointer;
 }
+
+/* =========================
+   SECCIÓN PAYPAL
+========================= */
+.paypal-section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.paypal-text h3 { margin: 0 0 5px 0; font-size: 1.2rem; color: var(--text-main); }
+.paypal-text p { margin: 0; font-size: 0.9rem; color: var(--text-muted); max-width: 500px; }
+
+.btn-paypal {
+  background: var(--paypal);
+  color: #fff;
+  border: 1px solid var(--paypal-dark);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.btn-paypal:hover { background: var(--paypal-dark); transform: translateY(-2px); }
 
 /* =========================
    GRILLA DE NÚMEROS EN VIVO
@@ -185,6 +238,7 @@ a { text-decoration: none; color: inherit; }
   .social-buttons { justify-content: center; }
   .raffle-info { grid-template-columns: 1fr; }
   .grid-header { flex-direction: column; }
+  .paypal-section { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
@@ -200,9 +254,12 @@ a { text-decoration: none; color: inherit; }
       <h2>CAYE</h2>
       <p>Estoy reconstruyendo mi vida y compartiendo el proceso.</p>
       
+      <!-- REDES SOCIALES ACTUALIZADAS -->
       <div class="social-buttons">
-        <a href="https://www.instagram.com/soycaye.ok/" target="_blank" class="btn-social">📸 Instagram</a>
+        <a href="https://instagram.com/soycayeok" target="_blank" class="btn-social">📸 Instagram</a>
+        <a href="https://www.tiktok.com/@soy.caye0" target="_blank" class="btn-social">🎵 TikTok</a>
         <a href="https://www.youtube.com/@soyelcaye" target="_blank" class="btn-social">▶️ YouTube</a>
+        <a href="https://x.com/Caye2400" target="_blank" class="btn-social">𝕏 X (Twitter)</a>
         <a href="https://wa.me/5491126830194" target="_blank" class="btn-social">💬 WhatsApp</a>
       </div>
     </div>
@@ -250,11 +307,27 @@ a { text-decoration: none; color: inherit; }
       <div class="alias-box">
         <span style="font-size: 0.8rem; color: var(--text-muted);">ALIAS (Galicia)</span><br>
         <strong style="font-size: 1.5rem;">caye2000</strong>
+        <!-- BOTÓN DE COPIAR ALIAS -->
+        <button type="button" class="btn-copy" onclick="copiarAlias(this)">📋 Copiar alias</button>
       </div>
       <a href="https://wa.me/5491126830194?text=Hola%20Caye,%20ya%20transferí.%20Mi%20número%20es%20el:%20" target="_blank" class="btn-whatsapp">
         ENVIAR COMPROBANTE
       </a>
     </div>
+  </div>
+
+  <!-- SECCIÓN PAYPAL -->
+  <div class="paypal-section">
+    <div class="paypal-text">
+      <h3>💙 ¿Querés ayudar sin participar de la rifa?</h3>
+      <p>Si preferís hacer una donación directa o estás fuera de Argentina, podés ayudarme a través de PayPal. Todo suma para salir adelante.</p>
+    </div>
+    <form action="https://www.paypal.com/donate" method="post" target="_top" style="margin:0;">
+      <input type="hidden" name="hosted_button_id" value="LC22GZCYF8AH4" />
+      <button type="submit" class="btn-paypal">
+        💙 DONAR CON PAYPAL
+      </button>
+    </form>
   </div>
 
   <!-- GRILLA EN VIVO -->
@@ -273,8 +346,20 @@ a { text-decoration: none; color: inherit; }
 
 </div>
 
-<!-- SCRIPT DE CONEXIÓN CON GOOGLE SHEETS (Intacto de tu versión original) -->
+<!-- SCRIPT DE CONEXIÓN Y UTILIDADES -->
 <script>
+/* === FUNCIÓN COPIAR ALIAS === */
+function copiarAlias(btn){
+  navigator.clipboard.writeText('caye2000').then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '✅ ¡Copiado!';
+    setTimeout(() => { btn.innerHTML = original; }, 2000);
+  }).catch(() => {
+    btn.innerHTML = 'Alias: caye2000';
+  });
+}
+
+/* === CONEXIÓN CON GOOGLE SHEETS === */
 const CONFIG = {
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSKQiP_Jl6f7SvX1WVA9c39qroTDgNQfoBijbbhbPWgx0SPvt18eq9e37CLQqt-g/pub?gid=1168496489&single=true&output=csv",
   TOTAL_NUMEROS: 500,
