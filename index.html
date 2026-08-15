@@ -89,8 +89,8 @@ a { text-decoration: none; color: inherit; }
 .obj-amount { font-size: 2.2rem; font-weight: bold; line-height: 1; }
 .obj-amount.gold { color: var(--accent-gold); font-size: 2.5rem; }
 
-/* Gráfico circular */
-.circular-chart { display: block; margin: 0 auto; max-width: 140px; max-height: 140px; }
+/* Gráfico circular arreglado (Tamaño fijo) */
+.circular-chart { display: block; margin: 0 auto; width: 140px; height: 140px; }
 .circle-bg { fill: none; stroke: #222; stroke-width: 3; }
 .circle { fill: none; stroke-width: 3; stroke-linecap: round; stroke: var(--accent-gold); transition: stroke-dasharray 1s ease-out; }
 .percentage { fill: var(--text-main); font-family: sans-serif; font-size: 8px; text-anchor: middle; font-weight: bold; }
@@ -196,12 +196,12 @@ a { text-decoration: none; color: inherit; }
       <h2>CAYE</h2>
       <p>Estoy reconstruyendo mi vida y compartiendo el proceso.</p>
       
-      <!-- REDES SOCIALES (Solo 1 logo de X) -->
+      <!-- REDES SOCIALES (Corregido el botón de X) -->
       <div class="social-buttons">
         <a href="https://instagram.com/soycayeok" target="_blank" class="btn-social">📸 Instagram</a>
         <a href="https://www.tiktok.com/@soy.caye0" target="_blank" class="btn-social">🎵 TikTok</a>
         <a href="https://www.youtube.com/@soyelcaye" target="_blank" class="btn-social">▶️ YouTube</a>
-        <a href="https://x.com/Caye2400" target="_blank" class="btn-social">𝕏 X</a>
+        <a href="https://x.com/Caye2400" target="_blank" class="btn-social">𝕏</a>
         <a href="https://wa.me/5491126830194" target="_blank" class="btn-social">💬 WhatsApp</a>
       </div>
     </div>
@@ -216,7 +216,7 @@ a { text-decoration: none; color: inherit; }
       <div class="obj-amount" id="objCurrent">$0</div>
     </div>
 
-    <!-- Círculo de porcentaje animado -->
+    <!-- Círculo de porcentaje animado (Corregido) -->
     <div>
       <svg class="circular-chart" viewBox="0 0 36 36">
         <path class="circle-bg"
