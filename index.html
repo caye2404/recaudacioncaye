@@ -150,24 +150,49 @@ a { text-decoration: none; color: inherit; }
 .btn-paypal { background: var(--paypal); color: #fff; border: 1px solid var(--paypal-dark); padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
 .btn-paypal:hover { background: var(--paypal-dark); transform: translateY(-2px); }
 
-/* =========================
+//* =========================
    GRILLA DE NÚMEROS EN VIVO
 ========================= */
 .grid-section { background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px; border-radius: 15px; margin-bottom: 40px; }
 .grid-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
 .grid-header h3 { margin: 0; font-size: 1.5rem; }
 
+/* LEYENDA ACTUALIZADA (Más limpia y circular) */
 .legend { display: flex; gap: 15px; font-size: 0.9rem; color: var(--text-muted); }
-.legend span { display: flex; align-items: center; gap: 5px; }
-.dot { width: 12px; height: 12px; border-radius: 3px; }
-.dot.disp { background: var(--available); }
-.dot.res { background: var(--taken); }
+.legend span { display: flex; align-items: center; gap: 6px; }
+.dot { width: 14px; height: 14px; border-radius: 50%; }
+.dot.disp { background: #13241b; border: 1px solid #2ea043; } /* Verde sutil */
+.dot.res { background: #2b1313; border: 1px solid #d6482f; } /* Rojo sutil */
 
 #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 8px; }
-.ticket { background: #222; border: 1px solid var(--card-border); padding: 10px 0; text-align: center; font-family: monospace; font-size: 1.1rem; font-weight: bold; color: #fff; border-radius: 6px; transition: 0.2s; }
-.ticket.disponible { background: var(--available); border-color: #2b6b5b; }
-.ticket.reservado { background: var(--taken); border-color: #ff5b3d; opacity: 0.6; }
-.ticket .who { display: block; font-family: sans-serif; font-size: 0.6rem; font-weight: normal; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+
+/* ESTILO GENERAL DE LOS NÚMEROS */
+.ticket {
+  padding: 10px 0;
+  text-align: center;
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+/* NÚMEROS LIBRES (Estilo limpio) */
+.ticket.disponible { 
+  background: #13241b; 
+  border: 1px solid #2ea043; 
+  color: #fff; 
+}
+
+/* NÚMEROS RESERVADOS (Se ven más apagados para no molestar) */
+.ticket.reservado { 
+  background: #2b1313; 
+  border: 1px solid #d6482f; 
+  color: #d6482f; 
+  opacity: 0.6; 
+}
+
+.ticket .who { display: block; font-family: sans-serif; font-size: 0.6rem; font-weight: normal; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; color: #a0a0a0; }
 
 .status-msg { font-size: 0.9rem; color: var(--accent-gold); text-align: center; margin-bottom: 15px; }
 
