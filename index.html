@@ -124,6 +124,7 @@ a { text-decoration: none; color: inherit; }
       <div class="obj-amount gold">$1.500.000</div>
       <div class="obj-label" style="margin-top: 15px;">RECAUDADO HASTA AHORA</div>
       <div class="obj-amount" id="objCurrent">$0</div>
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;" id="objCurrentUsd">≈ USD 0</div>
     </div>
     <div>
       <svg class="circular-chart" viewBox="0 0 36 36">
@@ -160,8 +161,9 @@ a { text-decoration: none; color: inherit; }
     <div class="info-card">
       <h3>PAGO Y AVISO</h3>
       <div class="alias-box">
-        <span style="font-size: 0.8rem; color: var(--text-muted);">ALIAS (Galicia)</span><br>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">ALIAS (Banco Galicia)</span><br>
         <strong style="font-size: 1.5rem;">caye2000</strong>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Cayetano Raul Benitez</div>
         <button type="button" class="btn-copy" onclick="copiarAlias(this)">📋 Copiar alias</button>
       </div>
       <a href="https://paypal.me/caye2404" target="_blank" class="btn-paypal-mini">💙 PayPal.me/caye2404</a>
@@ -258,6 +260,7 @@ function render(data){
   if(porcentaje > 100) porcentaje = 100;
 
   document.getElementById('objCurrent').textContent = '$' + totalRecaudado.toLocaleString('es-AR');
+  document.getElementById('objCurrentUsd').textContent = '≈ USD ' + Math.round(totalRecaudado/1500).toLocaleString('es-AR');
   document.getElementById('circlePercentage').textContent = Math.floor(porcentaje) + '%';
   document.getElementById('circleProgress').setAttribute('stroke-dasharray', `${porcentaje}, 100`);
 
