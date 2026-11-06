@@ -50,6 +50,27 @@ header{border-bottom:1px solid var(--line);background:#0e141d}nav{min-height:76p
 <script>
 const grid=document.getElementById("grilla"),buscar=document.getElementById("buscar"),contador=document.getElementById("contador");
 const nums=Array.from({length:500},(_,i)=>String(i+1).padStart(3,"0"));
-function render(){const q=buscar.value.replace(/\D/g,"");const found=nums.filter(n=>!q||n.includes(q));const fragment=document.createDocumentFragment();for(const n of found){const e=document.createElement("span");e.className="number review";e.textContent=n;e.title="Número "+n+" · pendiente de conciliación";fragment.append(e)}grid.replaceChildren(fragment);contador.textContent=found.length+" números en revisión";}
+const verifiedPaid=new Set(),verifiedReserved=new Set();
+function render(){
+  const q=buscar.value.replace(/\D/g,"");
+  const found=nums.filter(n=>!q||n.includes(q));
+  const fragment=document.createDocumentFragment();
+  for(const n of found){
+    const e=document.createElement("span");const estado=verifiedPaid.has(n)?"paid":verifiedReserved.has(n)?"reserved":"review";
+    e.className="number "+estado;e.textContent=n;
+    e.title="Número "+n+" · "+(estado==="paid"?"pagado verificado":estado==="reserved"?"reservado verificado":"pendiente de conciliación");
+    fragment.append(e);
+  }
+  grid.replaceChildren(fragment);
+  contador.textContent=found.length+" números mostrados · "+verifiedPaid.size+" pagos verificados";
+}
 buscar.addEventListener("input",render);render();
+fetch("./rifa-500-estados.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Registro no accesible");return r.json()}).then(d=>{
+  const valid=x=>typeof x==="number"&&Number.isInteger(x)&&x>=1&&x<=500;
+  if(d.fase!=="conciliacion"||!Array.isArray(d.pagados_verificados)||!Array.isArray(d.reservados_verificados))return;
+  for(const n of d.pagados_verificados){if(valid(n))verifiedPaid.add(String(n).padStart(3,"0"))}
+  for(const n of d.reservados_verificados){if(valid(n)&&!verifiedPaid.has(String(n).padStart(3,"0")))verifiedReserved.add(String(n).padStart(3,"0"))}
+  render();
+}).catch(()=>{contador.textContent="Estado en revisión · Información no sincronizada";});
+
 </script></body></html>
