@@ -169,9 +169,9 @@ a { text-decoration: none; color: inherit; }
     </div>
     <div class="info-card">
       <h3>PAGO Y AVISO</h3>
-      <div class="alias-box">
-        <span style="font-size: 0.8rem; color: var(--text-muted);">ALIAS (Banco Galicia)</span><br>
-        <strong style="font-size: 1.5rem;">caye2000</strong>
+      <div class="bbva-account-details" style="padding:16px;margin:12px 0;background:#fff;color:#072146;border:1px solid #b8cbdc;border-radius:10px;line-height:1.7;overflow-wrap:anywhere"><strong>BBVA · Caja de Ahorro en $</strong><br>Titular: Cayetano Raúl Benítez<br>Alias: <strong>CAYE2404B</strong><br>CBU: <strong>0170051040000030943942</strong><br>Cuenta: 51-309439/4<br>SWIFT: BFRPARBAXXX<br>Sucursal: AV. SANTA FE 946</div><div class="alias-box">
+        <span style="font-size: 0.8rem; color: var(--text-muted);">ALIAS (Banco BBVA)</span><br>
+        <strong style="font-size: 1.5rem;">CAYE2404B</strong>
         <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Cayetano Raul Benitez</div>
         <button type="button" class="btn-copy" onclick="copiarAlias(this)">📋 Copiar alias</button>
       </div>
@@ -213,12 +213,12 @@ a { text-decoration: none; color: inherit; }
 
 <script>
 function copiarAlias(btn){
-  navigator.clipboard.writeText('caye2000').then(() => {
+  navigator.clipboard.writeText('CAYE2404B').then(() => {
     const original = btn.innerHTML;
     btn.innerHTML = '✅ ¡Copiado!';
     setTimeout(() => { btn.innerHTML = original; }, 2000);
   }).catch(() => {
-    btn.innerHTML = 'Alias: caye2000';
+    btn.innerHTML = 'Alias: CAYE2404B';
   });
 }
 
