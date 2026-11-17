@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0e1623">
+  <meta name="description" content="Ayuda urgente para Cayetano Benítez: reunir $225.400 para restituir una obligación económica personal. Aportes voluntarios y trabajo.">
+  <meta property="og:title" content="Ayudame a resolver una urgencia | Caye">
+  <meta property="og:description" content="Necesito reunir $225.400 para restituir una obligación personal. Todo aporte, difusión u oportunidad de trabajo suma.">
+  <title>Ayuda urgente | Caye</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0e1623;--panel:#172334;--line:#344356;--txt:#edf3fb;--muted:#b9c6d6;--accent:#bce6c3}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#233750 0,transparent 44%),var(--bg);color:var(--txt);font:16px/1.6 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+    main{max-width:750px;margin:auto;padding:36px 20px 64px}
+    .top{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);font-weight:700}
+    h1{font-size:clamp(34px,6vw,56px);line-height:1.08;letter-spacing:-.035em;margin:15px 0 18px}
+    p{color:var(--muted)}.lead{font-size:18px;color:#e3eaf4;max-width:660px}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;margin:24px 0}
+    .amount{font-size:clamp(36px,7vw,58px);font-weight:800;line-height:1.2;color:var(--accent);letter-spacing:-.03em;margin:5px 0}
+    .mini{font-size:13px;color:var(--muted)}.label{font-size:13px;text-transform:uppercase;letter-spacing:.1em;font-weight:750;color:var(--muted)}
+    h2{font-size:21px;line-height:1.25;margin:0 0 10px}
+    .alias{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:#0f1927;border-radius:12px;padding:16px;margin-top:14px}
+    .alias strong{font-size:26px;letter-spacing:.03em}
+    button,.action{border:0;border-radius:9px;background:var(--accent);color:#12251a;font:700 15px system-ui;padding:12px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+    .secondary{background:transparent;color:var(--txt);border:1px solid var(--line)}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+    footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:18px;margin-top:40px}
+    a{color:var(--accent)}.status{margin:12px 0 0;color:var(--accent);min-height:23px}
+  </style>
+</head>
+<body>
+<main>
+  <div class="top">Campaña personal · 17 de noviembre de 2026</div>
+  <h1>Necesito una mano para resolver una urgencia.</h1>
+  <p class="lead">Soy Cayetano Benítez. Cometí un error personal en el manejo de dinero de mi trabajo y necesito restituir el importe pendiente. Asumo mi responsabilidad y quiero resolverlo de manera correcta y lo antes posible.</p>
+  <section class="panel" aria-labelledby="goal">
+    <div class="label" id="goal">Meta concreta de restitución</div>
+    <div class="amount">$225.400 <span style="font-size:18px">ARS</span></div>
+    <p>Esta cifra surge del efectivo que debía quedar luego de los gastos documentados. La recaudación es para <strong>regularizar esa obligación personal</strong>, no para financiar NÚCLEO, CayeLab ni otro proyecto.</p>
+    <p class="mini">Monto reunido confirmado: pendiente de conciliación. No se muestran aportes ficticios. Si la cifra final se ajusta, la información de esta página se actualizará.</p>
+  </section>
+  <section class="panel" aria-labelledby="contribuir">
+    <h2 id="contribuir">Cómo colaborar</h2>
+    <p>Si podés hacer un aporte voluntario, incluso pequeño, te lo agradezco. No es un préstamo, una inversión ni un sorteo; no se prometen premios ni devoluciones. Compartir esta página también ayuda.</p>
+    <div class="label">Transferencia en Argentina · Banco BBVA</div>
+    <div class="alias"><div><div class="mini">Alias</div><strong id="alias">caye2404b</strong></div><button id="copy" type="button">Copiar alias</button></div>
+    <p class="mini">Titular: Cayetano Raúl Benítez. Antes de transferir, verificá el titular que muestra tu banco.</p>
+    <div class="actions">
+      <button type="button" class="secondary" id="share">Compartir pedido</button>
+      <a class="action secondary" href="https://cayelab-web.pages.dev/" target="_blank" rel="noopener">Conocer mis servicios</a>
+    </div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </section>
+  <section class="panel">
+    <h2>También puedo trabajar por este dinero</h2>
+    <p>Ofrezco soporte informático, mejora de planillas, tareas administrativas, diseño web y automatizaciones sencillas. Si necesitás alguno de estos servicios, podemos acordar un trabajo y presupuesto por separado. Me ayuda tanto como una colaboración.</p>
+    <p>Mi experiencia y trabajos están disponibles en <a href="https://cayelab-web.pages.dev/" rel="noopener">CayeLab</a>.</p>
+  </section>
+  <footer>Esta solicitud es personal y voluntaria. No está realizada en nombre de mi empleador ni de terceros. No se publican datos privados de caja, clientes o donantes. Gracias por leer, compartir o ayudar.</footer>
+</main>
+<script>
+const msg='Soy Caye. Necesito reunir $225.400 para restituir una obligación económica personal. Si podés colaborar, compartir o acercarme trabajo, te agradezco. '+location.href;
+document.getElementById('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText('caye2404b');document.getElementById('status').textContent='Alias copiado.'}catch(e){document.getElementById('status').textContent='Seleccioná y copiá el alias: caye2404b'}});
+document.getElementById('share').addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'Ayuda urgente para Caye',text:msg,url:location.href});return}catch(e){}}window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener')});
+</script>
+</body>
+</html>
