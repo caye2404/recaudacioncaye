@@ -325,6 +325,7 @@ a { text-decoration: none; color: inherit; }
       </div>
     </div>
     <div id="status" class="status-msg">Conectando con la planilla en vivo...</div>
+    <p style="margin:14px auto;max-width:760px;text-align:center"><a href="https://caye2404.github.io/rifacaye/participar.html" style="display:inline-block;padding:14px 18px;border-radius:9px;background:#1d695d;color:#fff;font-weight:900;text-decoration:none">🔢 VER GRILLA INTERACTIVA Y AVANCE DE LA META ↗</a></p>
     <div id="grid"></div>
   </div>
 
@@ -374,48 +375,50 @@ function parseCSV(text){
   });
 }
 
-function render(data){
-  const grid = document.getElementById('grid');
-  const statusEl = document.getElementById('status');
-  statusEl.style.display = 'none';
-  grid.innerHTML = '';
-
-  const reservados = data.filter(d => estaVendido(d.estado)).length;
-  const disponibles = data.length - reservados;
-  const totalRecaudado = reservados * CONFIG.PRECIO_POR_NUMERO;
-
-  let porcentaje = (totalRecaudado / CONFIG.META_RECAUDACION) * 100;
-  if(porcentaje > 100) porcentaje = 100;
-
-  document.getElementById('objCurrent').textContent = '$' + totalRecaudado.toLocaleString('es-AR');
-  document.getElementById('objCurrentUsd').textContent = '≈ USD ' + Math.round(totalRecaudado/1500).toLocaleString('es-AR');
-  document.getElementById('circlePercentage').textContent = Math.floor(porcentaje) + '%';
-  document.getElementById('circleProgress').setAttribute('stroke-dasharray', `${porcentaje}, 100`);
-
-  document.getElementById('statVendidos').textContent = reservados;
-  document.getElementById('statDisponibles').textContent = disponibles;
-  document.getElementById('statPrecio').textContent = '$' + CONFIG.PRECIO_POR_NUMERO.toLocaleString('es-AR');
-
-  data.forEach(d => {
-    const el = document.createElement('div');
-    const reservado = estaVendido(d.estado);
-    el.className = 'ticket ' + (reservado ? 'reservado' : 'disponible');
-    el.innerHTML = d.numero + (reservado && d.persona ? `<span class="who">${d.persona}</span>` : '');
-    grid.appendChild(el);
-  });
+function render(data,verified){
+ const grid=document.getElementById("grid");grid.innerHTML="";
+ const pagados=data.filter(x=>x.estado==="Pagado");
+ const disponibles=data.filter(x=>x.estado==="Disponible").length;
+ const total=pagados.reduce((v,x)=>v+(Number(x.importe)||Number(x.precio)||CONFIG.PRECIO_POR_NUMERO),0);
+ const percent=CONFIG.META_RECAUDACION>0?Math.min(100,total/CONFIG.META_RECAUDACION*100):0;
+ document.getElementById("objCurrent").textContent=verified?"$"+total.toLocaleString("es-AR"):"Por verificar";
+ document.getElementById("objCurrentUsd").textContent="Monto confirmado en ARS";
+ document.getElementById("circlePercentage").textContent=verified?Math.floor(percent)+"%":"—";
+ document.getElementById("circleProgress").setAttribute("stroke-dasharray",(verified?percent:0)+", 100");
+ document.getElementById("statVendidos").textContent=verified?pagados.length:"—";
+ document.getElementById("statDisponibles").textContent=verified?disponibles:"—";
+ document.getElementById("statPrecio").textContent="$"+CONFIG.PRECIO_POR_NUMERO.toLocaleString("es-AR");
+ const frag=document.createDocumentFragment();
+ data.forEach(x=>{
+   const e=document.createElement("button");e.type="button";e.textContent=x.numero;
+   e.title="Número "+x.numero+" · "+x.estado;
+   e.style.cssText="cursor:pointer;border:1px solid #536b65;border-radius:7px;padding:9px 3px;margin:2px;min-width:39px;font-weight:900;background:"+(x.estado==="Disponible"?"#c7f5d2":x.estado==="Pagado"?"#3c4f59":x.estado==="Reservado"?"#fbe5b8":"#e4e9e6")+";color:"+(x.estado==="Pagado"?"#fff":"#17302b");
+   e.addEventListener("click",()=>{
+     const msg="Hola Caye, quiero consultar el número "+x.numero+" de la rifa solidaria. Valor: $"+(Number(x.precio)||3000).toLocaleString("es-AR")+". ¿Está disponible?";
+     window.open("https://wa.me/5491126830194?text="+encodeURIComponent(msg),"_blank","noopener");
+   });frag.appendChild(e);
+ });grid.appendChild(frag);
 }
 
 async function load(){
-  try {
-    const res = await fetch(CONFIG.SHEET_CSV_URL + '&t=' + Date.now());
-    if(!res.ok) throw new Error('No se pudo obtener la planilla.');
-    const text = await res.text();
-    render(parseCSV(text));
-  } catch(err) {
-    render(DEMO_DATA);
-    document.getElementById('status').style.display = 'block';
-    document.getElementById('status').textContent = 'No se pudo leer la planilla en este momento.';
-  }
+ const status=document.getElementById("status");status.style.display="block";status.textContent="Conectando con Google Sheets...";
+ try{
+   const url="https://docs.google.com/spreadsheets/d/1LtPuRytE6Be4C3aGYvIjX4ekx16jVjpVOpgF075zVwY/gviz/tq?gid=831265420&headers=1&tqx=out:json&t="+Date.now();
+   const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw Error("Acceso denegado");
+   const raw=await r.text(),a=raw.indexOf("setResponse("),b=raw.lastIndexOf(")");
+   if(a<0||b<a)throw Error("Respuesta inesperada");
+   const d=JSON.parse(raw.slice(a+12,b));if(d.status!=="ok"||!d.table?.rows)throw Error("Sin datos");
+   const rows=d.table.rows.map(row=>{
+     const v=row.c||[],numero=String(v[0]?.v??"").padStart(3,"0"),estado=String(v[1]?.v||"Por verificar");
+     return {numero,estado:["Disponible","Solicitado","Reservado","Pagado","Por verificar","Anulado"].includes(estado)?estado:"Por verificar",precio:Number(v[2]?.v)||3000,importe:Number(v[3]?.v)||0};
+   }).filter(x=>/^\d{3}$/.test(x.numero)&&+x.numero>=1&&+x.numero<=500);
+   if(rows.length!==500)throw Error("Listado incompleto");
+   CONFIG.PRECIO_POR_NUMERO=rows[0].precio||3000;
+   render(rows,true);status.style.display="none";
+ }catch(err){
+   render(DEMO_DATA.map(x=>({...x,estado:"Por verificar",precio:3000,importe:0})),false);
+   status.textContent="La lectura pública de Google Sheets está pendiente. Podés consultar números por WhatsApp; la disponibilidad y los pagos deben confirmarse.";
+ }
 }
 
 load();
